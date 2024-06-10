@@ -8,7 +8,6 @@
  * @param {string} exclude - Characters to exclude from the password.
  * @returns {string} The generated password.
  */
-// password.js
 
 function generatePassword(length, lowercase, uppercase, numbers, symbols, exclude) {
     var charset = '';
@@ -32,6 +31,36 @@ function generatePassword(length, lowercase, uppercase, numbers, symbols, exclud
         password += charset.charAt(Math.floor(Math.random() * charset.length));
     }
     return password;
+}
+
+function validatePassword() {
+    var length = parseInt(document.getElementById('length').value);
+    var lowercase = document.getElementById('lowercase').checked;
+    var uppercase = document.getElementById('uppercase').checked;
+    var numbers = document.getElementById('numbers').checked;
+    var symbols = document.getElementById('symbols').checked;
+    var exclude = document.getElementById('exclude').value;
+    var charset = '';
+    if (lowercase) {
+        charset += 'abcdefghijklmnopqrstuvwxyz';
+    }
+    if (uppercase) {
+        charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    }
+    if (numbers) {
+        charset += '0123456789';
+    }
+    if (symbols) {
+        charset += '!@#$%^&*()_+-={}[]|:;"<>,.?/~`';
+    }
+    if (exclude) {
+        charset = charset.replace(new RegExp('[' + exclude + ']', 'g'), '');
+    }
+    var valid = charset.length > 0;
+    if (length < 1 || length > 128) {
+        valid = false;
+    }
+    document.getElementById('generate').disabled = !valid;
 }
 
 document.getElementById('generate').addEventListener('click', function() {
